@@ -4,6 +4,7 @@ import (
 	iperf_utils "github.com/jianfmax/iperf-go-ws/iperf_util"
 )
 
+// IperfClientWS ws client
 func IperfClientWS(conn *WsConn, iperfPath string, allTime, port int, proto iperf_utils.Protocol, destinationAddr,
 	bandwidthToSend, datagramSize string) error {
 	iperfClient, err := iperf_utils.NewIperfClient(iperfPath, allTime, port, proto, destinationAddr, bandwidthToSend, datagramSize)
