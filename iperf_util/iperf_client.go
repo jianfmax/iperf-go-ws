@@ -17,6 +17,14 @@ type IperfClient struct {
 	started  bool
 }
 
+type Protocol string
+
+const (
+	ProtoTcp  Protocol = "TCP"
+	ProtoUdp  Protocol = "UDP"
+	ProtoNone Protocol = "NONE"
+)
+
 // NewIperfClient 创建一个新的iperf客户端
 func NewIperfClient(iperfPath string, allTime, port int, proto Protocol, destinationAddr,
 	bandwidthToSend, datagramSize string) (*IperfClient, error) {

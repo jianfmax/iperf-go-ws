@@ -8,17 +8,17 @@ import (
 )
 
 type IperfResult struct {
-	Interval           float64
-	IntervalStart      float64
-	IntervalEnd        float64
-	Transfer           float64 // 单位：M bit
-	Bitrate            float64 // 单位：Mbps
-	Jitter             string  // 单位：ms
-	LostTotalDatagrams string
-	TotalDatagrams     int
-	RetryTimes         int
-	Cwnd               float64 // 单位：M bit
-	Head               bool
+	Interval           float64 `json:"interval,omitempty"`
+	IntervalStart      float64 `json:"interval_start,omitempty"`
+	IntervalEnd        float64 `json:"interval_end,omitempty"`
+	Transfer           float64 `json:"transfer,omitempty"` // 单位：M bit
+	Bitrate            float64 `json:"bitrate,omitempty"`  // 单位：Mbps
+	Jitter             string  `json:"jitter,omitempty"`   // 单位：ms
+	LostTotalDatagrams string  `json:"lost_total_datagrams,omitempty"`
+	TotalDatagrams     int     `json:"total_datagrams,omitempty"`
+	RetryTimes         int     `json:"retry_times,omitempty"`
+	Cwnd               float64 `json:"cwnd,omitempty"` // 单位：M bit
+	Head               bool    `json:"head,omitempty"`
 }
 
 func NewIperfResult(data string) (IperfResult, bool) {
@@ -281,20 +281,6 @@ type ReturnFlows struct {
 	Bw       string `json:"bw,omitempty"`
 	Len      string `json:"len,omitempty"`
 	Status   string `json:"status,omitempty"`
-}
-
-func (i *IperfResult) ToReturnFlows(client *iperfClient) *ReturnFlows {
-	client.locker.RLock()
-	defer client.locker.RUnlock()
-	r := &ReturnFlows{
-		File: fmt.Sprintf("%v_%v_%v_%v", client.Proto, client.Port,
-			client.SourceAddr, client.DestinationAddr),
-		TimeLeft: fmt.Sprintf("%v", client.LeftTime),
-		Bw:       fmt.Sprintf("%v", i.Bitrate),
-		Len:      client.DatagramSize,
-		Status:   client.Status,
-	}
-	return r
 }
 
 func (i *IperfResult) String() string {
